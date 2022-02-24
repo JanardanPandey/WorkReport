@@ -1,0 +1,166 @@
+
+{% extends 'base/base_main.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title> Worksheet | Workreport </title>
+{% endblock title %}
+
+{% block breadcrumb %}
+<h5 class="mb-0">Workreport</h5>
+  <nav aria-label="breadcrumb">
+     <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Workreport</li>
+     </ul>
+  </nav>
+{% endblock breadcrumb %}
+
+
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                        <div class="iq-header-title">
+                            <h4 class="card-title">Add Workreport</h4>
+                        </div>
+                    </div>
+                    <div class="iq-card-body">
+                         <form action="" method="post">
+                        {%csrf_token %}
+                            <div class="row">
+                                {% for fm in form %}
+                                    <div class="form-group col-md-12">
+                                        {{fm.label_tag}}
+                                        {{fm}}
+                                        {{fm.errors|striptags}}
+                                    </div>
+                                {% endfor%}
+                                <div class="col-md-12 form-group text-left mb-0">
+                                    <button class="btn btn-sm btn-primary" type="submit"><i class="ri ri-send-plane-2-line"></i> Upload</button>
+                                </div>
+                                
+                            </div>
+                        </form>
+
+                        <!-- <form action="/work_report/" method="POST">
+                            {%csrf_token %}
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                   <label class="control-label" for="project_name">Project name *</label>
+                                   <select class="form-control" id="project_id" name="project_name" >
+                                        <option selected> Select Project</option>
+                                        {% for project in projects %}
+                                        <option value="{{project}}"> {{project}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label" for="team_name">Team name *</label>
+                                    <select class="form-control" id="team_name" onchange="userlist(this)" name="team_name" >
+                                        <option selected> Select Team</option>
+                                        {% for team in teams %}
+                                        <option value="{{team}}"> {{team}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                <label class="control-label" for="user_name">User *</label>
+                                <select class="form-control" id="user_name" name="user_name" >                                  
+                                    <option selected>Select User</option>
+                                </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="control-label" for="Comment">Comment *</label>
+                                    <textarea type="text" class="form-control" id="Comment" name="Comment"></textarea>
+                                </div>
+
+                                <div class="col-md-12 form-group text-left mb-0">
+                                    <button class="btn btn-sm btn-primary" type="submit"><i class="ri ri-send-plane-2-line"></i> Upload</button>
+                                </div>
+                            </div>
+                        </form> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                        <div class="iq-header-title">
+                            <h4 class="card-title">Workreport</h4>
+                        </div>
+                    </div>
+                    <div class="iq-card-body">
+                        <div class="new-user-info">
+                            <table class="table table-responsive-md">
+                                <thead>
+                                   <tr>
+                                      <th>Date</th>
+                                      <th>Proj. Name</th>
+                                      <th>Team Name</th>
+                                      <th>Proj. Status</th>
+                                      {% comment %} <th>User</th> {% endcomment %}
+                                      <th>Comment</th>
+                                      <th>Updated By</th>
+                                   </tr>
+                                </thead>
+                                <tbody>
+                                    {% for report in workreport %}
+                                        <tr>
+                                            <td>{{report.date|date:"m-d-y"}}</td>
+                                            <td>{{report.project_name}}</td>
+                                            <td>{{report.team}}</td>
+                                            <td>{{report.project_name.project_status}}</td>
+                                            {% comment %} <td>{{report.user.username}}</td> {% endcomment %}
+                                            <td>{{report.comment}}</td>
+                                            <td>{{report.user.first_name}} {{report.user.last_name}}</td>
+                                            
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block style %}
+{% endblock style %}
+
+
+{% block script %}
+<script>
+    function userlist(obj){
+        console.log(obj.value)
+        const URL = `/getuserlist/${obj.value}`
+        fetch(URL)
+        .then(response => response.json())
+        .then(data => {
+            console.log(obj.value)
+            var thtml = "<option selected> Select User</option>"
+            
+            for(key in data){
+                console.log(data)
+                thtml += `<option value=${key}>${data[key]}</option>`               
+
+            }
+            console.log(thtml)
+            document.getElementById("id_user").innerHTML = thtml;
+        
+        })
+    }
+</script>
+
+{% endblock script %}

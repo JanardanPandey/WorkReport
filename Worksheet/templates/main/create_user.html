@@ -1,0 +1,105 @@
+
+{% extends 'base/base_main.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title> Worksheet | Create User </title>
+{% endblock title %}
+
+{% block breadcrumb %}
+<h5 class="mb-0">Create User</h5>
+  <nav aria-label="breadcrumb">
+     <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create User</li>
+     </ul>
+  </nav>
+{% endblock breadcrumb %}
+
+
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                        <div class="iq-header-title">
+                            <h4 class="card-title">Add User</h4>
+                        </div>
+                    </div>
+                    <div class="iq-card-body">
+                        <form action="" method="post">
+                        {% csrf_token %}
+                            <div class="row">
+                                {% for fm in form %}
+                                    <div class="form-group col-md-12">
+                                        {{fm.label_tag}}
+                                        {{fm}}
+                                        {{fm.errors|striptags}}
+                                    </div>
+                                {% endfor%}
+                                <div class="col-md-12 form-group text-left mb-0">
+                                    <button class="btn btn-sm btn-primary" type="submit"><i class="ri ri-send-plane-2-line"></i> Upload</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                        <div class="iq-header-title">
+                            <h4 class="card-title">Users List</h4>
+                        </div>
+                    </div>
+                    <div class="iq-card-body">
+                        <div class="new-user-info">
+                            <table class="table table-responsive-md">
+                                <thead>
+                                   <tr>
+                                      <th>Serl. No</th>
+                                      <th>Full Name</th>
+                                      <th>Username</th>
+                                      {% if user.is_superuser %}
+                                      <th>Action</th>
+                                      {% endif %}
+                                   </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in user_list %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{i.first_name}} {{i.last_name}}</td>
+                                            <td>{{i.username}}</td>
+                                            {% if user.is_superuser %}
+                                            <td>
+                                                {% comment %} <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Edit" class="btn btn-warning btn-sm"><i class="icon-edit-3"></i></a>  {% endcomment %}
+                                                <a href="{% url 'deleteuser' i.id %}" data-toggle="tooltip" data-placement="top" title="Delete" class="btn btn-danger btn-sm"><i class="icon-delete"></i></a>
+                                                {% comment %} <a href="javascript:void(0)" data-toggle="tooltip" data-placement="top" title="Change Password" class="btn btn-info btn-sm"><i class="icon-lock"></i></a> {% endcomment %}
+                                            </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
+
+{% block style %}
+{% endblock style %}
+
+{% block script %}
+{% endblock script %}
