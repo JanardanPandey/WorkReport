@@ -1,0 +1,138 @@
+{% extends 'base/base_main.html' %}
+
+{% load static %}
+
+{% block title %}
+    <title> Worksheet | Dashboard </title>
+{% endblock title %}
+
+{% block breadcrumb %}
+<h5 class="mb-0">Dashboard</h5>
+  <nav aria-label="breadcrumb">
+     <ul class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+     </ul>
+  </nav>
+{% endblock breadcrumb %}
+{% block content %}
+<div id="content-page" class="content-page">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-md-6 col-lg-3">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+               <div class="iq-card-body text-center">
+                  <div class="iq-card-left text-center">
+                     <div class="rounded-circle iq-card-icon iq-bg-light-blue"><img src="/static/images/user/11.png"
+                           class="img-fluid rounded" alt="user"></div>
+                  </div>
+                  <div class="iq-card-right">
+                     <div class="title_top admin_sec">
+                        <h5>Hello {{user.username}}</h5>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+               <div class="iq-card-body text-center">
+                  <div class="iq-card-left text-center">
+                     <div class="iq-card-left text-center">
+                        <div class="rounded-circle iq-card-icon iq-bg-light-blue"><i class="icon-bookmark1"></i></div>
+                     </div>
+                  </div>
+                  <div class="iq-card-right">
+                     <div class="title_top">
+                        <h5>Projects</h5>
+                     </div>
+                     <h4><span class="counter-count">{{total_projects}}</h4>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+               <div class="iq-card-body text-center">
+                  <div class="iq-card-left text-center">
+                     <div class="rounded-circle iq-card-icon iq-bg-light-red">
+                        <i class="ri-group-line"></i>
+                     </div>
+                  </div>
+                  <div class="iq-card-right">
+                     <div class="title_top">
+                        <h5>Teams</h5>
+                     </div>
+                     <h4><span class="counter-count">{{total_teams}}</h4>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+               <div class="iq-card-body text-center">
+                  <div class="iq-card-left text-center">
+                     <div class="rounded-circle iq-card-icon iq-bg-light-green">
+                        <i class="icon-users"></i>
+                     </div>
+                  </div>
+                  <div class="iq-card-right">
+                     <div class="title_top">
+                        <h5>Users</h5>
+                     </div>
+                     <h4><span class="counter-count">{{total_users}}</span></h4>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-12 col-md-12">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+               <div class="iq-card-header d-flex justify-content-between">
+                  <div class="iq-header-title">
+                     <h4 class="card-title">Work Sheet</h4>
+                  </div>
+               </div>
+               <div class="iq-card-body">
+                  <table class="table table-responsive-md">
+                     <thead>
+                        <tr>
+                           <th>Date</th>
+                           <th>Project Name</th>
+                           <th>Project Status</th>
+                           <th>Team Name</th>
+                           {% comment %} <th>User</th> {% endcomment %}
+                           <th>Comment</th>
+                           <th>Updated By</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        {% for report in workreport %}
+                           <tr>
+                              <td>{{report.date|date:"m-d-y"}}</td>
+                              <td>{{report.project_name}}</td>
+                              <td>{{report.team}}</td>
+                              <td>{{report.project_name.project_status}}</td>
+                              {% comment %} <td>{{report.user.username}}</td> {% endcomment %}
+                              <td>{{report.comment}}</td>
+                              <td>{{report.user.first_name}} {{report.user.last_name}}</td>
+                           </tr>
+                        {% endfor %}
+                     </tbody>
+                  </table>
+                  <!-- <ul>
+               <li class="create_link d-inline-block mt-3"><a href="#" ><i class="ri ri-add-circle-line"></i> View Work Report</a></li>
+            </ul> -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock content %}
+
+{% block style %}
+{% endblock style %}
+
+{% block script %}
+
+{% endblock script %}
